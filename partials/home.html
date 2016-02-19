@@ -7,7 +7,7 @@
 <!-- <div class="">
   {{brews}}
 </div> -->
-<div class="brews-container" ng-repeat="brew in brews" ng-show="!singleBrew">
+<div class="brews-container" ng-repeat="brew in brews track by $index" ng-show="!singleBrew">
   <div class="batch-card">
     <div class="col-md-3">
       <a ng-click="showBatch(brew)">
