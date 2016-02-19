@@ -30,10 +30,6 @@ app.controller('HomeController', function($scope, $http, $location, batch_servic
     // clearBrew();
   };
   batch_service.getBatches().then(function(data){
-<<<<<<< HEAD
-    console.log(data);
-=======
->>>>>>> 98f689017fb96683fd34407aa90f5b056f6102d8
     $scope.brews=data;
   })
 
