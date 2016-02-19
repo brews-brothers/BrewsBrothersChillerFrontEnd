@@ -1,19 +1,15 @@
 app.controller('mainController', function($scope, $http, $localStorage, $location) {
   $scope.user_id = 1;
   $scope.defaultSchedule = [[0, 70], [0.5, 65], [5, 68], [7, 40]];
-  $scope.sampleData = {
-    name: "Pale Ale - Default",
-    style: "pale ale",
-    created: "Wed Feb 17 2016 14:51:24 GMT-0700",
-    lastRun: "Wed Feb 17 2016 14:51:24 GMT-0700",
-    favorite: false,
-    schedule: $scope.defaultSchedule
-  }
-  $http.get(config.host +'dashboard').then(function(data){
-    $scope.brews = data.data;
-    console.log(data.data);
-    $scope.brews.push($scope.sampleData);
-  });
+  // $scope.sampleData = {
+  //   name: "Pale Ale - Default",
+  //   style: "pale ale",
+  //   created: "Wed Feb 17 2016 14:51:24 GMT-0700",
+  //   lastRun: "Wed Feb 17 2016 14:51:24 GMT-0700",
+  //   favorite: false,
+  //   schedule: $scope.defaultSchedule
+  // }
+
   $scope.logout = function(){
     $localStorage.$reset();
     $location.path('/');
@@ -22,8 +18,16 @@ app.controller('mainController', function($scope, $http, $localStorage, $locatio
 
 app.controller('HomeController', function($scope, $http){
   $http.get(config.host +'dashboard').then(function(data){
-    console.log(data);
-  })
+    if (data.data){
+    $scope.brews = data.data;
+    }
+    else {
+      $scope.brews = [];
+    }
+    console.log(data.data);
+    // $scope.brews.push($scope.sampleData);
+  });
+
   $scope.greeting = 'Welcome Brews Brothers';
   $scope.singleBrew = false;
   $scope.showBatch = function(batch) {
@@ -35,11 +39,11 @@ app.controller('HomeController', function($scope, $http){
     $scope.singleBrew = false;
   };
   $scope.runBatch = function() {
-    $http.post('http://localhost:3333/dashboard/startBrew')
+    $http.post(config.host+'dashboard/startBrew')
   };
   $scope.saveBatchData = function(brew) {
     console.log(brew);
-    $http.post('http://localhost:3333/dashboard/saveBrew', brew)
+    $http.post(config.host+'dashboard/saveBrew', brew)
   }
 });
 
