@@ -7,8 +7,15 @@
     </a>
   </div>
   <div class="media-body">
-    <h4 class="media-heading">Name: {{batch.name}} <small class="date">Creation date: {{batch.created | date}}</small></h4>
-    <p><small>Style: {{batch.style}}</small> <small class="date">Last run: {{batch.lastRun | date}}</small></p>
-    <input type="text" name="notes" placeholder="make notes on this beer here" ng-model="brew.notes">
+    <h4 class="media-heading">Name: {{batch.name}}<small class="date">Creation date: <span am-time-ago="batch.created"></span></small></h4>
+    <p><small>Style: {{batch.beer_id}}</small> <small class="date">Last run: <span am-time-ago="batch.lastRun"></span></small></p>
+    <div class="input-group" ng-repeat="temp in batch.schedule track by $index">
+      <span class="input-group-addon">Days</span>
+      <input type="number" class="form-control" placeholder="Input time" ng-model="temp[0]">
+      <span class="input-group-addon">Temp (f)</span>
+      <input type="number" class="form-control" placeholder="Input temp" ng-model="temp[1]">
+    </div>
+    <input type="text" name="notes" placeholder="make notes on this beer here" ng-model="batch.notes">
+    <button type="button" ng-click="saveBatchData(batch)">Save</button>
   </div>
 </div>

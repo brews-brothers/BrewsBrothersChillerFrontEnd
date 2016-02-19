@@ -10,7 +10,7 @@
 <div class="brews-container" ng-repeat="brew in brews" ng-show="!singleBrew">
   <div class="batch-card">
     <div class="col-md-3">
-      <a ng-href="#/batch:{{brew.name}}" ng-click="clear()">
+      <a ng-click="showBatch(brew)">
         <div class="beer-glass-container">
           <svg
           class="glass-svg" xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enable-background="new 0 0 100 100" xml:space="preserve">
@@ -28,12 +28,12 @@
         <!-- Test Brew -->
         <small class="date">Creation date:
           <!-- January 12, 2016 -->
-           {{brew.created | date}}
+           <span am-time-ago="brew.created"></span>
 
          </small></h2>
       <h4 ng-click="showBatch(brew)">Style:
         <!-- West Coast Pale Ale -->
-         {{brew.style}}
+         {{brew.beer_id}}
          <small class="date">Last run:
            <!-- February 10, 2016 -->
             {{brew.lastRun | date}}
@@ -46,8 +46,8 @@
         </div>
 
       </div>
-      <div class="switch-container">
-        <div class="switch-box switch-box-off">
+      <div class="switch-container" ng-click="runBatch(brew); brewOn=!brewOn">
+        <div ng-class="brewOn ? 'switch-box-on' : 'switch-box-off'" class="switch-box">
           <div class="switch">
 
           </div>
@@ -55,7 +55,12 @@
         </div>
       </div>
       <div ng-click="brew.favorite = !brew.favorite"><span ng-show="brew.favorite" class="glyphicon glyphicon-star favorite-button-clicked"></span><span ng-show="!brew.favorite" class="glyphicon glyphicon-star-empty favorite-button-empty"></span></div>
-
+    <div class="media-body">
+      <h4 class="media-heading" ng-click="showBatch(brew)">Name: {{brew.name}}  <small class="date">Creation date: <span am-time-ago="brew.created"></span></small></h4>
+      <h5 ng-click="showBatch(brew)">Style: {{brew.style}}  <small class="date">Last run: <span am-time-ago="brew.created"></span></small></h5>
+      <div ng-click="brew.favorite = !brew.favorite"><span ng-show="brew.favorite" class="glyphicon glyphicon-star"></span><span ng-show="!brew.favorite" class="glyphicon glyphicon-star-empty"></span></div>
+      <button type="button" ng-click="runBatch()">Run</button>
+      <button type="button" ng-click="deleteBatch()">Delete</button>
     </div>
   </div>
 </div>

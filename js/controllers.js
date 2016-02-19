@@ -1,49 +1,47 @@
 app.controller('mainController', function($scope, $http, $localStorage, $location) {
   $scope.user_id = 1;
-  $scope.sampleData = {
-    name: "Pale Ale - Default",
-    style: "pale ale",
-    created: "Wed Feb 17 2016 14:51:24 GMT-0700",
-    lastRun: "Wed Feb 17 2016 14:51:24 GMT-0700",
-    favorite: false,
-    schedule: [
-      {
-        time: 0,
-        temp: 68
-      },
-      {
-        time: 86400,
-        temp: 65
-      },
-      {
-        time: 604800,
-        temp: 50
-      }
-    ]
-  }
-  $http.get(config.host +'dashboard').then(function(data){
-    $scope.brews = data.data;
-    $scope.brews.push($scope.sampleData);
-  });
+  $scope.defaultSchedule = [[0, 70], [0.5, 65], [5, 68], [7, 40]];
+  // $scope.sampleData = {
+  //   name: "Pale Ale - Default",
+  //   style: "pale ale",
+  //   created: "Wed Feb 17 2016 14:51:24 GMT-0700",
+  //   lastRun: "Wed Feb 17 2016 14:51:24 GMT-0700",
+  //   favorite: false,
+  //   schedule: $scope.defaultSchedule
+  // }
+
   $scope.logout = function(){
     $localStorage.$reset();
     $location.path('/');
   }
 });
 
-app.controller('HomeController', function($scope, $http){
-  $http.get(config.host +'dashboard').then(function(data){
-    console.log(data);
+app.controller('HomeController', function($scope, $http, batch_service){
+
+  batch_service.getBatches().then(function(data){
+    $scope.brews=data;
   })
+
   $scope.greeting = 'Welcome Brews Brothers';
   $scope.singleBrew = false;
   $scope.showBatch = function(batch) {
+    console.log(batch);
     $scope.singleBrew = true;
     $scope.batch = batch;
   };
   $scope.clear = function() {
     $scope.singleBrew = false;
   };
+
+$scope.brewOn = false;
+
+  $scope.runBatch = function(brew) {
+    $http.post(config.host+'dashboard/startbrew',brew);
+  };
+  $scope.saveBatchData = function(brew) {
+    console.log(brew);
+    $http.post(config.host+'dashboard/savebrew', brew);
+  }
 });
 
 app.controller('LoginController', function($scope, $anchorScroll, $location, $http){
@@ -55,29 +53,32 @@ app.controller('LoginController', function($scope, $anchorScroll, $location, $ht
   $scope.toAbout = function() {
    $location.hash('about');
    $anchorScroll();
-  }
-})
+ };
+});
 // app.controller('BatchController', function($scope, $stateParams){
 //   $scope.place = 'Batch View';
 // })
 
-app.controller('NewBrewController', function($scope, $http){
-  clearBrew()
-  $scope.place = 'New Brew'
+app.controller('NewBrewController', function($scope, $http, batch_service){
+  clearBrew();
+  $scope.place = 'New Brew';
   $scope.submitBatch = function(){
     $scope.brew.created = new Date();
     $scope.brew.lastRun = $scope.brew.created;
     $scope.brew.user_id = $scope.user_id;
     console.log($scope.brew);
-    $scope.brews.push($scope.brew)
+    batch_service.createBrew($scope.brew).then(function(){
+      clearBrew();
+    })
+    // brews.push($scope.brew);
     // $http.post('https://chillerdb.herokuapp.com/batch', $scope.brew, config).then(successCallback, errorCallback);
-    $http.post(config.host +'dashboard', $scope.brew).then(function(successCallback, errorCallback){});
-    clearBrew();
-  }
+    // $http.post(config.host +'dashboard', $scope.brew).then(function(successCallback, errorCallback){});
+    // clearBrew();
+  };
   $scope.deleteBatch = function(){
     $http.delete(config.host +'dashboard', $scope.brew).then(function(successCallback, errorCallback){});
     clearBrew();
-  }
+  };
   $scope.setStyle = function(style){
     var time = new Date();
     $scope.brew.style = style;
@@ -85,68 +86,16 @@ app.controller('NewBrewController', function($scope, $http){
     console.log($scope.brew);
     if (style === "Ale") {
       $scope.brew.styleNumber = 1;
-      $scope.brew.schedule = [
-            {
-            time: time,
-            temp: 68
-            },
-            {
-            time: time,
-            temp: 65
-            },
-            {
-            time: time,
-            temp: 50
-            }
-          ];
+      $scope.brew.schedule = $scope.defaultSchedule;
     } else if (style === "Stout") {
       $scope.brew.styleNumber = 2;
-      $scope.brew.schedule = [
-            {
-            time: 0,
-            temp: 68
-            },
-            {
-            time: 76400,
-            temp: 75
-            },
-            {
-            time: 504800,
-            temp: 60
-            }
-          ];
+      $scope.brew.schedule = $scope.defaultSchedule;
     } else if (style === "Porter") {
       $scope.brew.styleNumber = 3;
-      $scope.brew.schedule = [
-            {
-            time: 0,
-            temp: 58
-            },
-            {
-            time: 96400,
-            temp: 55
-            },
-            {
-            time: 704800,
-            temp: 60
-            }
-          ];
+      $scope.brew.schedule = $scope.defaultSchedule;
     } else if (style === "Lager") {
       $scope.brew.styleNumber = 4;
-      $scope.brew.schedule = [
-            {
-            time: 0,
-            temp: 58
-            },
-            {
-            time: 96400,
-            temp: 55
-            },
-            {
-            time: 704800,
-            temp: 60
-            }
-          ];
+      $scope.brew.schedule = $scope.defaultSchedule;
     };
   };
   function clearBrew(){
