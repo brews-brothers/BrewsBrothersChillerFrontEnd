@@ -15,7 +15,14 @@
       <span class="input-group-addon">Temp (f)</span>
       <input type="number" class="form-control" placeholder="Input temp" ng-model="temp[1]">
     </div>
-    <input type="text" name="notes" placeholder="make notes on this beer here" ng-model="batch.notes">
+    <div ng-repeat="note in batch.notes track by $index">
+      <input type="text" name="notes" placeholder="make notes on this beer here" ng-model="batch.notes">
+    </div>
+    <button type="button">
+      <input type="text" name="notes" placeholder="make notes on this beer here" ng-model="noteToBeAdded">
+      <span class="glyphicon glyphicon-plus" ng-click="addNote(noteToBeAdded)"> Add-note</span>
+    </button>
     <button type="button" ng-click="saveBatchData(batch)">Save</button>
+    <button type="button" ng-click="deleteBatch(batch)">Delete Batch</button>
   </div>
 </div>

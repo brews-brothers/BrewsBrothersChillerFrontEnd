@@ -56,3 +56,17 @@ app.directive('batch', function() {
     templateUrl: 'partials/batch.html'
   };
 });
+
+app.factory('batch_service', function($http){
+  return {
+    getBatches:function(brew){
+      return $http.get(config.host +'dashboard', brew).then(function(data){
+        console.log(data);
+        return data.data;
+      });
+    },
+    createBrew:function(brew){
+      return $http.post(config.host +'dashboard',brew);
+    }
+  };
+});
