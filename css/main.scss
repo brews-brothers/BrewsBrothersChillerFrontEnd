@@ -239,6 +239,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(169, 3, 
 }
 
 .switch-box-on {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
+background: rgb(0,255,0); /* Old browsers */
+// background: -moz-linear-gradient(left,  rgba(169, 3, 41, 1) 0%, rgba(143, 2, 34, 1) 44%, rgba(109, 0, 25, 1) 100%); /* FF3.6-15 */
+// background: -webkit-linear-gradient(left,  rgba(169, 3, 41, 1) 0%,rgba(143, 2, 34, 1) 44%,rgba(109, 0, 25, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+// background: linear-gradient(to right,  rgba(169, 3, 41, 1) 0%,rgba(143, 2, 34, 1) 44%,rgba(109, 0, 25, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(169, 3, 41, 1)', endColorstr='rgba(109, 0, 25, 1)',GradientType=1 ); /* IE6-9 */
 
 }
 
