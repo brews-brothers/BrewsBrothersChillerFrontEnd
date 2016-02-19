@@ -1,5 +1,5 @@
 app.controller('mainController', function($scope, $http, $localStorage, $location) {
-  $scope.user_id = 1;
+  // $scope.user_id = 2;
   $scope.defaultSchedule = [[0, 70], [0.5, 65], [5, 68], [7, 40]];
   // $scope.sampleData = {
   //   name: "Pale Ale - Default",
@@ -16,8 +16,19 @@ app.controller('mainController', function($scope, $http, $localStorage, $locatio
   }
 });
 
-app.controller('HomeController', function($scope, $http, batch_service){
-
+app.controller('HomeController', function($scope, $http, $location, batch_service){
+  $scope.deleteBatch = function(brew){
+    console.log(brew);
+    $http.delete(config.host +'dashboard/'+brew.id).then(function(successCallback, errorCallback){
+      $scope.singleBrew = false;
+      for (var i = 0; i < $scope.brews.length; i++) {
+        if ($scope.brews[i].id === brew.id) {
+          $scope.brews.splice(i);
+        }
+      }
+    });
+    // clearBrew();
+  };
   batch_service.getBatches().then(function(data){
     $scope.brews=data;
   })
@@ -40,7 +51,12 @@ $scope.brewOn = false;
   };
   $scope.saveBatchData = function(brew) {
     console.log(brew);
-    $http.post(config.host+'dashboard/savebrew', brew);
+    $http.post(config.host+'dashboard/saveBrew', brew);
+  };
+  $scope.addNote = function(note, batch){
+    var noteArray = [note];
+    $scope.noteToBeAdded = "";
+    batch.notes.push(noteArray);
   }
 });
 
@@ -49,6 +65,9 @@ app.controller('LoginController', function($scope, $anchorScroll, $location, $ht
   $scope.googleauth = function(){
     console.log(config.host);
     window.location= config.host+'auth/google'
+  }
+  $scope.setUserTest = function() {
+    $scope.user.id = 2;
   }
   $scope.toAbout = function() {
    $location.hash('about');
@@ -64,10 +83,12 @@ app.controller('NewBrewController', function($scope, $http, batch_service){
   $scope.place = 'New Brew';
   $scope.submitBatch = function(){
     $scope.brew.created = new Date();
+    $scope.brew.notes = [];
     $scope.brew.lastRun = $scope.brew.created;
     $scope.brew.user_id = $scope.user_id;
     console.log($scope.brew);
     batch_service.createBrew($scope.brew).then(function(){
+      // $scope.brews.push($scope.brew);
       clearBrew();
     })
     // brews.push($scope.brew);
@@ -75,10 +96,11 @@ app.controller('NewBrewController', function($scope, $http, batch_service){
     // $http.post(config.host +'dashboard', $scope.brew).then(function(successCallback, errorCallback){});
     // clearBrew();
   };
-  $scope.deleteBatch = function(){
-    $http.delete(config.host +'dashboard', $scope.brew).then(function(successCallback, errorCallback){});
-    clearBrew();
-  };
+  // $scope.deleteBatch = function(brew){
+  //   console.log(brew);
+  //   $http.delete(config.host +'dashboard', brew).then(function(successCallback, errorCallback){});
+  //   clearBrew();
+  // };
   $scope.setStyle = function(style){
     var time = new Date();
     $scope.brew.style = style;

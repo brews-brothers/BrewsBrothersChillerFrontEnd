@@ -61,6 +61,7 @@ app.factory('batch_service', function($http){
   return {
     getBatches:function(){
       return $http.get(config.host +'dashboard').then(function(data){
+        console.log(data);
         return data.data;
       });
     },
