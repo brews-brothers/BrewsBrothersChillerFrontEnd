@@ -1,6 +1,6 @@
 config = {
-  // host:'https://chillerdb.herokuapp.com/'
-  host:'http://localhost:3333/'
+  host:'https://chillerdb.herokuapp.com/'
+  // host:'http://localhost:3333/'
 }
 
 //Production
