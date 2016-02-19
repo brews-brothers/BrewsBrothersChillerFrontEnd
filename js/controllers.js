@@ -30,7 +30,10 @@ app.controller('HomeController', function($scope, $http, $location, batch_servic
     // clearBrew();
   };
   batch_service.getBatches().then(function(data){
+<<<<<<< HEAD
     console.log(data);
+=======
+>>>>>>> 98f689017fb96683fd34407aa90f5b056f6102d8
     $scope.brews=data;
   })
 
@@ -44,8 +47,11 @@ app.controller('HomeController', function($scope, $http, $location, batch_servic
   $scope.clear = function() {
     $scope.singleBrew = false;
   };
-  $scope.runBatch = function() {
-    $http.post(config.host+'dashboard/startBrew');
+
+$scope.brewOn = false;
+
+  $scope.runBatch = function(brew) {
+    $http.post(config.host+'dashboard/startbrew',brew);
   };
   $scope.saveBatchData = function(brew) {
     console.log(brew);

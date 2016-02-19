@@ -18,7 +18,7 @@ app.config(function($routeProvider,$httpProvider) {
         templateUrl: 'partials/newbrew.html',
         controller: 'NewBrewController'
       })
-      .when('/authenticate/:token/',{
+      .when('/authenticate/:token',{
         templateUrl:'/partials/auth.html',
         controller: 'authController'
       })

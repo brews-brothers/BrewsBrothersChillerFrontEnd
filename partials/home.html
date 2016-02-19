@@ -46,8 +46,8 @@
         </div>
 
       </div>
-      <div class="switch-container">
-        <div class="switch-box switch-box-off">
+      <div class="switch-container" ng-click="runBatch(brew); brewOn=!brewOn">
+        <div ng-class="brewOn ? 'switch-box-on' : 'switch-box-off'" class="switch-box">
           <div class="switch">
 
           </div>

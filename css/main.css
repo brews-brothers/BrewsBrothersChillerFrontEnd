@@ -193,6 +193,7 @@ body:before {
   border-radius: 5px; }
 
 .switch-box-off {
+  display:flex;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
   background: #a90329;
   /* Old browsers */
@@ -204,6 +205,11 @@ body:before {
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(169, 3, 41, 1)', endColorstr='rgba(109, 0, 25, 1)',GradientType=1 );
   /* IE6-9 */ }
+.switch-box-on{
+  background: green;
+  display:flex;
+  justify-content: flex-end;
+}
 
 .switch {
   margin: 0 3px;
